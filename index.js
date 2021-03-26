@@ -10,6 +10,8 @@ const routes = require('./src/routes');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/public', express.static(__dirname + '/public'));
+
 app.use(routes);
 
 app.listen(port, () => {

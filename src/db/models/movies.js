@@ -14,7 +14,11 @@ const Movie = sequelize.define('Movie', {
         defaultValue: 0.00
     },
     availability: DataTypes.BOOLEAN,
-    ranking: DataTypes.INTEGER
+    ranking: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+    image: DataTypes.STRING(100)
 }, {
     timestamps: false
 });

@@ -9,6 +9,7 @@ const setRequestUser = (req, res, next) => {
         res.status(403).json({
             msg: 'Debe iniciar sesión para acceder a este recurso'
         })
+        return;
     };
     const token = authorization.split(' ')[1];
     const user = jwt.verify(token, key);
@@ -24,6 +25,7 @@ const isAuthorized = (req, res, next) => {
         res.status(403).json({
             msg: 'No está autorizado a acceder a este recurso'
         })
+        return
     }
     next();
 };
