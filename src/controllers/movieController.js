@@ -1,4 +1,4 @@
-const { createMovieService, updateMovieService, getSingleMovieService } = require('../services');
+const { createMovieService, updateMovieService, getSingleMovieService, createMovieLogPricesService } = require('../services');
 
 const getMoviePayload = (body) => {
     return {
@@ -11,6 +11,20 @@ const getMoviePayload = (body) => {
     } = body;
 }
 
+const createMovieLogPrices = async (newMovie, oldMovie) => {
+    const movieLog = {
+        date: new Date(),
+        rentalPrice: newMovie.rentalPrice,
+        salePrice: newMovie.salePrice,
+        MovieLogId: newMovie.id
+    };
+    if (!oldMovie) {
+        await createMovieLogPricesService(movieLog);
+    } else if (newMovie.salePrice !== oldMovie.salePrice || newMovie.rentalPrice !== oldMovie.rentalPrice) {
+        await createMovieLogPricesService(movieLog)
+    }
+}
+
 const createMovie = async (req, res) => {
     const file = req.file
     let pathToFile = (file) ? file.path : ''
@@ -21,6 +35,7 @@ const createMovie = async (req, res) => {
     payload.salePrice = parseFloat(payload.salePrice);
     const movie = await createMovieService(payload);
     if (movie){
+        await createMovieLogPrices(movie)
         res.json({
             msg: 'Su película ha sido creada exitosamente',
             movie
@@ -37,10 +52,12 @@ const updateMovie = async (req, res) => {
     let pathToFile = (file) ? file.path : ''
     const {movieId} = req.params;
     const payload = getMoviePayload(req.body);
+    const oldMovie = await getSingleMovieService(movieId);
     payload.image = pathToFile;
     let updatedMovie = await updateMovieService(movieId, payload);
     if (updatedMovie && updatedMovie[0] === 1) {
         updatedMovie = await getSingleMovieService(movieId);
+        await createMovieLogPrices(updatedMovie, oldMovie);
         res.json({
             msg: 'su información ha sido actualizada con éxito',
             updatedMovie

@@ -1,7 +1,7 @@
 const models = require('./index');
 
-models.Movie.hasMany(models.Log_Movie_Price, { as: 'movie', foreignKey: 'MovieId' });
-models.Log_Movie_Price.belongsTo(models.Movie, { as: 'log', foreignKey: 'MovieId' });
+models.Movie.hasMany(models.Log_Movie_Price, { as: 'log', foreignKey: 'MovieLogId' });
+models.Log_Movie_Price.belongsTo(models.Movie, { as: 'movie', foreignKey: 'MovieLogId' });
 models.Movie.belongsToMany(models.User, { through: 'Like_Movie' });
 models.User.belongsToMany(models.Movie, { through: 'Like_Movie' });
 
