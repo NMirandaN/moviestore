@@ -1,4 +1,4 @@
-const { Movie } = require('../db');
+const { Movie, Log_Movie_Price } = require('../db');
 
 const createMovieService = async (movie) => {
     const availability = (movie.availability !== false) ? true : false
@@ -47,8 +47,18 @@ const getSingleMovieService = async (id) => {
     return movie;
 };
 
+const createMovieLogPricesService = async (log) => {
+    const newLog = await Log_Movie_Price.create(log)
+        .catch(error => {
+            console.log(error);
+            return 0
+        });
+    return newLog
+}
+
 module.exports = {
     createMovieService,
     updateMovieService,
-    getSingleMovieService
+    getSingleMovieService,
+    createMovieLogPricesService
 }
