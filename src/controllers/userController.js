@@ -64,5 +64,5 @@ const login = async (req, res) => {
 
 module.exports = {
     createRegularUser,
-    login
-}
+    login,
+};
