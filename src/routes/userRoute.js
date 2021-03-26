@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const config = require('../../config');
-const isAdmin = require('../utils')
 const { createRegularUser, login } = require('../controllers');
 
 router.post('/signup', createRegularUser);
