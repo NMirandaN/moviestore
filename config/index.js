@@ -17,6 +17,9 @@ const config = {
         username: process.env.USERNAME,
         password: process.env.PASSWORD,
         name: process.env.DB_NAME
+    },
+    jwt: {
+        key: process.env.JWT_KEY
     }
 }
 
