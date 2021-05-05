@@ -1,4 +1,4 @@
-const { createMovieService, updateMovieService, getSingleMovieService, createMovieLogPricesService, createMovieLikeService } = require('../services');
+const { createMovieService, updateMovieService, getSingleMovieService, createMovieLogPricesService, createMovieLikeService, getMoviesService, getSearchedMovieService } = require('../services');
 
 const getMoviePayload = (body) => {
     return {
@@ -121,10 +121,50 @@ const likeMovie = async (req, res) => {
     }
 }
 
+const getMovies = async (req, res) => {
+    const userIsAdmin = req.user.user.isAdmin;
+    let {
+        availability,
+        page,
+        sortByTitle,
+        sortByPopularity
+    } = req.query;
+
+    if (userIsAdmin && availability !== undefined) {
+        availability = (availability === "true") ? 1 : 0
+    }
+    const movies = await getMoviesService(userIsAdmin, availability, sortByTitle, sortByPopularity, page);
+    if (movies) {
+        res.json({
+            movies
+        })
+    } else {
+        res.status(404).json({
+            msg: 'No se han encontrado películas'
+        })
+    }
+};
+
+const searchMovie = async (req, res) => {
+    const { name } = req.query
+    const movies = await getSearchedMovieService(name);
+    if (movies) {
+        res.json({
+            movies
+        })
+    } else {
+        res.status(404).json({
+            msg:"adios"
+        })
+    }
+}
+
 module.exports = {
     createMovie,
     updateMovie,
     removeMovie,
     deleteMovie,
-    likeMovie
+    likeMovie,
+    getMovies,
+    searchMovie
 }

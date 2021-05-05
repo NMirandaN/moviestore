@@ -1,4 +1,8 @@
 const { Movie, Log_Movie_Price, Like_Movie } = require('../db');
+const {Sequelize} = require('sequelize');
+const Op = Sequelize.Op;
+
+const quantityResultsByPage = 2;
 
 const createMovieService = async (movie) => {
     const availability = (movie.availability !== false) ? true : false
@@ -69,12 +73,80 @@ const createMovieLikeService = async (movieId, userId) => {
     movie.ranking += 1;
     movie.save();
     return movieLike;
-}
+};
+
+const getMoviesService = async (userIsAdmin, availability, sortByTitle, sortByPopularity, page) => {
+    let movies;
+    if (userIsAdmin && availability !== undefined) {
+        movies = await Movie.findAll({
+            limit: quantityResultsByPage,
+            offset: parseInt(page),
+            where: {
+                availability: availability
+            },
+            order: [
+                ['title', sortByTitle],
+                ['ranking', sortByPopularity]
+            ]
+        })
+        .catch(error => {
+            console.log(error);
+            return 0
+        });
+    } else if (userIsAdmin) {
+        movies = await Movie.findAll({
+            limit: quantityResultsByPage,
+            offset: parseInt(page),
+            order: [
+                ['title', sortByTitle],
+                ['ranking', sortByPopularity]
+            ]
+        })
+        .catch(error => {
+            console.log(error);
+            return 0
+        });
+    } else {
+        movies = await Movie.findAll({
+            limit: quantityResultsByPage,
+            offset: parseInt(page),
+            where: {
+                availability: true
+            },
+            order: [
+                ['title', sortByTitle],
+                ['ranking', sortByPopularity]
+            ]
+        })
+        .catch(error => {
+            console.log(error);
+            return 0
+        });
+    }
+    return movies;
+};
+
+const getSearchedMovieService = async (searchedName) => {
+    const movies = await Movie.findAll({
+        where: {
+            title: {
+                [Op.like]: `%${searchedName}%`
+            }
+        }
+    })
+    .catch(error => {
+        console.log(error);
+        return 0
+    })
+    return movies;
+};
 
 module.exports = {
     createMovieService,
     updateMovieService,
     getSingleMovieService,
     createMovieLogPricesService,
-    createMovieLikeService
+    createMovieLikeService,
+    getMoviesService,
+    getSearchedMovieService
 }
