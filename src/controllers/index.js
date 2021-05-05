@@ -1,12 +1,15 @@
 const { createRegularUser, login } = require('./userController');
-const { createMovie, updateMovie, getSingleMovieService, removeMovie, deleteMovie } = require('./movieController');
+const { createMovie, updateMovie, removeMovie, deleteMovie } = require('./movieController');
+const { rentMovies, returnMovies, sellMovie } = require('./movieMovementsController');
 
 module.exports = {
     createRegularUser,
     login,
     createMovie,
     updateMovie,
-    getSingleMovieService,
     removeMovie,
-    deleteMovie
+    deleteMovie,
+    rentMovies,
+    returnMovies,
+    sellMovie
 }

@@ -14,6 +14,10 @@ const Movie_Rent = sequelice.define('Movie_Rent', {
     total: {
         type: DataTypes.DOUBLE,
         defaultValue: 0.00
+    },
+    isReturned: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     timestamps: false
@@ -22,7 +26,7 @@ const Movie_Rent = sequelice.define('Movie_Rent', {
 const Rent_Configuration = sequelice.define('Rent_Configuration', {
     dailyPenaltyRent: {
         type: DataTypes.DOUBLE,
-        defaultValue: 0.00
+        defaultValue: 1.00
     },
     maxDaysToRent: {
         type: DataTypes.INTEGER,
@@ -62,10 +66,24 @@ const Sale_Detail = sequelice.define('Sale_Detail', {
     timestamps: false
 });
 
+const Movement_Log = sequelice.define('Movement_Log', {
+    date: {
+        type: DataTypes.DATE,
+        defaultValue: Sequelize.NOW
+    },
+    type: DataTypes.STRING(10),
+    total: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0.00
+    },
+    movementId: DataTypes.INTEGER
+})
+
 module.exports = {
     Movie_Rent,
     Rent_Configuration,
     Rent_Detail,
     Movie_Sale,
     Sale_Detail,
+    Movement_Log
 };
