@@ -2,11 +2,12 @@ const jwt = require('jsonwebtoken');
 const { jwt: {key}} = require('../../config');
 
 const setRequestUser = (req, res, next) => {
-    const {
-        authorization
-    } = req.headers;
-    if (!authorization){
-        res.status(403).json({
+    try { 
+        const {
+            authorization
+        } = req.headers;
+        if (!authorization){
+            res.status(403).json({
             msg: 'Debe iniciar sesión para acceder a este recurso'
         })
         return;
@@ -15,6 +16,11 @@ const setRequestUser = (req, res, next) => {
     const user = jwt.verify(token, key);
     req.user = user;
     next();
+    } catch (error) {
+        res.status(403).json({
+            msg: 'Token inválido, inicie sesión nuevamente para acceder a este recurso'
+        });
+    };
 };
 
 const isAuthorized = (req, res, next) => {
