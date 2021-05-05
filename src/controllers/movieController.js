@@ -1,4 +1,4 @@
-const { createMovieService, updateMovieService, getSingleMovieService, createMovieLogPricesService } = require('../services');
+const { createMovieService, updateMovieService, getSingleMovieService, createMovieLogPricesService, createMovieLikeService } = require('../services');
 
 const getMoviePayload = (body) => {
     return {
@@ -106,9 +106,25 @@ const deleteMovie = async (req, res) => {
     }
 };
 
+const likeMovie = async (req, res) => {
+    const {movieId} = req.body;
+    const userId = req.user.user.id;
+    const likeMovie = await createMovieLikeService(movieId, userId);
+    if (likeMovie) {
+        res.json({
+            msg: 'Su like ha sido agregado con éxito'
+        });
+    } else {
+        res.status(404).json({
+            msg: 'No se ha encontrado la película deseada'
+        })
+    }
+}
+
 module.exports = {
     createMovie,
     updateMovie,
     removeMovie,
     deleteMovie,
+    likeMovie
 }

@@ -1,5 +1,5 @@
 const { createRegularUser, login } = require('./userController');
-const { createMovie, updateMovie, removeMovie, deleteMovie } = require('./movieController');
+const { createMovie, updateMovie, removeMovie, deleteMovie, likeMovie } = require('./movieController');
 const { rentMovies, returnMovies, sellMovie } = require('./movieMovementsController');
 
 module.exports = {
@@ -11,5 +11,6 @@ module.exports = {
     deleteMovie,
     rentMovies,
     returnMovies,
-    sellMovie
+    sellMovie,
+    likeMovie
 }

@@ -1,4 +1,4 @@
-const { Movie, Log_Movie_Price } = require('../db');
+const { Movie, Log_Movie_Price, Like_Movie } = require('../db');
 
 const createMovieService = async (movie) => {
     const availability = (movie.availability !== false) ? true : false
@@ -54,11 +54,27 @@ const createMovieLogPricesService = async (log) => {
             return 0
         });
     return newLog
+};
+
+const createMovieLikeService = async (movieId, userId) => {
+    const movie = await getSingleMovieService(movieId);
+    const movieLike = await Like_Movie.create({
+        MovieId: movieId,
+        UserId: userId
+    })
+    .catch(error => {
+        console.log(error);
+        return 0
+    });
+    movie.ranking += 1;
+    movie.save();
+    return movieLike;
 }
 
 module.exports = {
     createMovieService,
     updateMovieService,
     getSingleMovieService,
-    createMovieLogPricesService
+    createMovieLogPricesService,
+    createMovieLikeService
 }

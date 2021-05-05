@@ -8,6 +8,6 @@ const { setRequestUser } = require('../middleware');
 
 router.use('/user', userRoute);
 router.use('/movies', setRequestUser, movieRoute);
-router.use('/movies', setRequestUser, rentMovieRoute);
+router.use('/movement', setRequestUser, rentMovieRoute);
 
 module.exports = router;
