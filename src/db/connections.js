@@ -18,3 +18,6 @@ models.Movie_Sale.hasMany(models.Sale_Detail, { as: 'sale_detail', foreignKey: '
 models.Sale_Detail.belongsTo(models.Movie_Sale, { as: 'movie_sale', foreignKey: 'SaleId' });
 models.Movie.hasMany(models.Sale_Detail, { as: 'sale_detail', foreignKey: 'MovieId' });
 models.Sale_Detail.belongsTo(models.Movie, { as: 'movie', foreignKey: 'MovieId' });
+
+models.User.hasMany(models.Movement_Log, { as: 'movement_log', foreignKey: 'UserId'})
+models.Movement_Log.belongsTo(models.User, { as: 'user', foreignKey: 'UserId' });

@@ -1,7 +1,7 @@
 const config = require('./config');
 const { User } = require('./models/users');
-const { Movie, Log_Movie_Price } = require('./models/movies');
-const { Movie_Rent, Rent_Configuration, Rent_Detail, Movie_Sale, Sale_Detail } = require('./models/movieMovements');
+const { Movie, Log_Movie_Price, Like_Movie } = require('./models/movies');
+const { Movie_Rent, Rent_Configuration, Rent_Detail, Movie_Sale, Sale_Detail, Movement_Log } = require('./models/movieMovements');
 
 module.exports = {
     config,
@@ -12,5 +12,7 @@ module.exports = {
     Rent_Configuration,
     Rent_Detail,
     Movie_Sale,
-    Sale_Detail
+    Sale_Detail,
+    Movement_Log,
+    Like_Movie
 };

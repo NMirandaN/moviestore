@@ -34,7 +34,10 @@ const Log_Movie_Price = sequelize.define('Log_Movie_Price', {
     timestamps: false
 });
 
+const Like_Movie = sequelize.define('Like_Movie', {});
+
 module.exports = {
     Movie,
-    Log_Movie_Price
+    Log_Movie_Price,
+    Like_Movie
 };

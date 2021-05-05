@@ -26,8 +26,8 @@ const rentMovies = async (req, res) => {
 };
 
 const returnMovies = async (req, res) => {
-    const { rentId } = req.body;
-    const rentData = returnMovieService(rentId);
+    const { rentId } = req.query;
+    const rentData = await returnMovieService(rentId);
     if (rentData) {
         if (rentData.penalty) {
             res.json({

@@ -1,4 +1,4 @@
-const { Movie_Rent, Rent_Configuration, Movie, Rent_Detail, Sale_Detail, Movie_Sale } = require('../db');
+const { Movie_Rent, Rent_Configuration, Movie, Rent_Detail, Sale_Detail, Movie_Sale, Movement_Log } = require('../db');
 const { getSingleMovieService } = require('./movieService');
 const { substractTwoDates } = require('../utils');
 
@@ -10,6 +10,15 @@ const substractMovieStock = async (detail) => {
         await movie.save();
     });
 }
+
+const createMovementLog = async (movement, type) => {
+    Movement_Log.create({
+        type: type,
+        total: movement.total,
+        movementId: movement.id,
+        UserId: movement.UserId
+    });
+};
 
 const getRentConfigurationService = async () => {
     const configuration = await Rent_Configuration.findOne({id: 1});
@@ -87,8 +96,10 @@ const returnMovieService = async (rentId) => {
                 await movie.save()
             }
         })
+        rentData.isReturned = true;
         await rentData.save();
     }
+    createMovementLog(rentData, 'rent')
     return rentData;
 };
 
@@ -113,6 +124,7 @@ const createSellService = async (movieSale, movies) => {
         saleData.total = totalSale;
         await saleData.save()
     }
+    createMovementLog(saleData, 'sale')
     return saleData;
 }
 

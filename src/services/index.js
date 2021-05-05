@@ -1,5 +1,5 @@
 const { createNewUserService, getUser } = require('./userService');
-const { createMovieService, updateMovieService, getSingleMovieService, createMovieLogPricesService } = require('./movieService');
+const { createMovieService, updateMovieService, getSingleMovieService, createMovieLogPricesService, createMovieLikeService } = require('./movieService');
 const { getRentConfigurationService, createRentService, getRentMovieService, returnMovieService, createSellService } = require('./movieMovementsService');
 
 module.exports = {
@@ -13,5 +13,6 @@ module.exports = {
     createRentService,
     getRentMovieService,
     returnMovieService,
-    createSellService
+    createSellService,
+    createMovieLikeService
 }
