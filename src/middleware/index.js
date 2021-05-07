@@ -1,8 +1,9 @@
-const {setRequestUser, isAuthorized} = require('./userMiddleware');
+const {setRequestUser, isAuthorized, setRequestUserForPublicApi} = require('./userMiddleware');
 const imageUpload = require('./imageMiddleware');
 
 module.exports = {
     setRequestUser,
     isAuthorized,
-    imageUpload
+    imageUpload,
+    setRequestUserForPublicApi
 }

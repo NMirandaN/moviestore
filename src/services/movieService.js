@@ -148,5 +148,5 @@ module.exports = {
     createMovieLogPricesService,
     createMovieLikeService,
     getMoviesService,
-    getSearchedMovieService
+    getSearchedMovieService,
 }
