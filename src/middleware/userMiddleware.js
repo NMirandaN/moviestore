@@ -1,6 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { jwt: {key}} = require('../../config');
 
+const jwtGetUserData = (authorization) => {
+    const token = authorization.split(' ')[1];
+    const user = jwt.verify(token, key);
+    return user;
+}
+
 const setRequestUser = (req, res, next) => {
     try { 
         const {
@@ -12,8 +18,7 @@ const setRequestUser = (req, res, next) => {
         })
         return;
     };
-    const token = authorization.split(' ')[1];
-    const user = jwt.verify(token, key);
+    const user = jwtGetUserData(authorization)
     req.user = user;
     next();
     } catch (error) {
@@ -36,7 +41,19 @@ const isAuthorized = (req, res, next) => {
     next();
 };
 
+const setRequestUserForPublicApi = (req, res, next) => {
+    const {
+        authorization
+    } = req. headers;
+    if ( authorization ) {
+        const user = jwtGetUserData(authorization)
+        req.user = user;
+    }
+    next();
+}
+
 module.exports = {
     setRequestUser,
-    isAuthorized
+    isAuthorized,
+    setRequestUserForPublicApi
 }

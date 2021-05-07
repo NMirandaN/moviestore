@@ -122,7 +122,7 @@ const likeMovie = async (req, res) => {
 }
 
 const getMovies = async (req, res) => {
-    const userIsAdmin = req.user.user.isAdmin;
+    const userIsAdmin = req.user?.user.isAdmin;
     let {
         availability,
         page,

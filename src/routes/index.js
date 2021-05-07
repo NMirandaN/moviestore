@@ -7,7 +7,7 @@ const { setRequestUser } = require('../middleware');
 
 
 router.use('/user', userRoute);
-router.use('/movies', setRequestUser, movieRoute);
+router.use('/movies', movieRoute);
 router.use('/movement', setRequestUser, rentMovieRoute);
 
 module.exports = router;
